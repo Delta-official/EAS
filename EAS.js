@@ -1,7 +1,16 @@
-const Discord = require("discord.js")
-const linebutshorter = "‎‎‏‏‎ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶"
+const Discord = require("discord.js");
+const linebutshorter = "‎‎‏‏‎ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶";
+const GO = new Discord.MessageEmbed()
+.setTitle(":green_circle: LIVE STATUS :green_circle:")
+.setDescription("Booking for launches and/or contracts are now OPEN.\nPlease only submit one launch, so that we can get many others done. (Excluding NRO & KASA)")
+.setFooter("Elixer Announcement System");
 
-const client = new Discord.Client()
+const NOGO = new Discord.MessageEmbed()
+.setTitle(":red_circle: LIVE STATUS :red_circle:")
+.setDescription("Booking for launches and/or contracts are now CLOSED.\nPlease wait until bookings are open!")
+.setFooter("Elixer Announcement System");
+
+const client = new Discord.Client();
 
 
 client.on("ready", () => {
@@ -78,6 +87,15 @@ client.on('message', async(message) => {
                 { name: "Second stage recoveries: 2"}
             )
             message.channel.send(RECOVERY_EMBED)
+        }
+        if(command === "book_open") {
+            NOGO.edit(null, GO)
+        }
+        if(command === "book_close") {
+            GO.edit(null, NOGO)
+        }
+        if(command === "book_start") {
+            client.channels.cache.get("759439488043974666").send(GO)
         }
     }
 });
