@@ -12,6 +12,7 @@ const NOGO = new Discord.MessageEmbed()
 
 const client = new Discord.Client();
 
+const Bookings_CHNL = client.channels.cache.get("759439488043974666");
 
 client.on("ready", () => {
     console.log("EAS active, awaiting input...")
@@ -89,15 +90,18 @@ client.on('message', async(message) => {
             message.channel.send(RECOVERY_EMBED)
         }
         if(command === "book_open") {
-            NOGO.edit(null, GO)
+            Bookings_CHNL.fetch({ limit: 1}).then(msg => {
+                if (msg) msg.edit(GO);
+        });
         }
         if(command === "book_close") {
-            GO.edit(null, NOGO)
+            
         }
         if(command === "book_start") {
-            client.channels.cache.get("759439488043974666").send(GO)
+            if(message.author.id === "508632222245322793") {
+                client.channels.cache.get("759439488043974666").send(GO)
+            }
         }
     }
 });
-
 client.login(process.env.token)
